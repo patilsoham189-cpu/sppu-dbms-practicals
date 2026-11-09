@@ -1,0 +1,316 @@
+Microsoft Windows [Version 10.0.26100.4770]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 9.3\bin>mysql -h localhost -u root -p
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.3.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| e_commerce         |
+| information_schema |
+| inventory          |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (1.311 sec)
+mysql> use e_commerce
+Database changed
+mysql> use e_commerce;
+Database changed
+mysql> desc users_table
+    -> desc users_table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc users_table' at line 2
+mysql> desc users_table;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| user_id | int         | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| email   | varchar(50) | YES  |     | NULL    |       |
+| phone   | bigint      | YES  |     | NULL    |       |
+| address | text        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.222 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_e_commerce |
++----------------------+
+| categories_table     |
+| orders_table         |
+| products_table       |
+| users_table          |
++----------------------+
+4 rows in set (0.162 sec)
+
+mysql> select users_table;
+ERROR 1054 (42S22): Unknown column 'users_table' in 'field list'
+mysql> desc users_table;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| user_id | int         | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| email   | varchar(50) | YES  |     | NULL    |       |
+| phone   | bigint      | YES  |     | NULL    |       |
+| address | text        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.030 sec)
+
+mysql> use users_table;
+ERROR 1049 (42000): Unknown database 'users_table'
+mysql> select * from users_table;
++---------+-------+-------------------+------------+----------+
+| user_id | name  | email             | phone      | address  |
++---------+-------+-------------------+------------+----------+
+|     101 | Ram   | ram@gmail.com     | 8669341360 | Pune     |
+|     102 | Sham  | sham@gmail.com    | 8767443434 | Nashik   |
+|     103 | Kunal | kunal34@gmail.com | 7829490378 | Talegaon |
++---------+-------+-------------------+------------+----------+
+3 rows in set (0.306 sec)
+
+mysql> create view v1 as select user_id, name, email from users_table;
+Query OK, 0 rows affected (0.232 sec)
+
+mysql> show * from v1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from v1' at line 1
+mysql> select * from v1;
++---------+-------+-------------------+
+| user_id | name  | email             |
++---------+-------+-------------------+
+|     101 | Ram   | ram@gmail.com     |
+|     102 | Sham  | sham@gmail.com    |
+|     103 | Kunal | kunal34@gmail.com |
++---------+-------+-------------------+
+3 rows in set (0.017 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| e_commerce         |
+| information_schema |
+| inventory          |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.030 sec)
+
+mysql> select e_commerce;
+ERROR 1054 (42S22): Unknown column 'e_commerce' in 'field list'
+mysql> show e_commerce;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'e_commerce' at line 1
+mysql> use e_commerce;
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_e_commerce |
++----------------------+
+| categories_table     |
+| orders_table         |
+| products_table       |
+| users_table          |
+| v1                   |
++----------------------+
+5 rows in set (0.032 sec)
+
+mysql> CREATE VIEW v2 AS SELECT users_table.user_id, users_table.email,orders_table.order_id FROM users_table, orders_table WHERE users_table.user_id = orders_table.user_id;
+Query OK, 0 rows affected (0.131 sec)
+
+mysql> select * from v2
+    -> selce;
+Empty set (0.064 sec)
+
+mysql> select * from v2;
+Empty set (0.013 sec)
+
+mysql> select * from v2;
+Empty set (0.014 sec)
+
+mysql> select * from v1;
++---------+-------+-------------------+
+| user_id | name  | email             |
++---------+-------+-------------------+
+|     101 | Ram   | ram@gmail.com     |
+|     102 | Sham  | sham@gmail.com    |
+|     103 | Kunal | kunal34@gmail.com |
++---------+-------+-------------------+
+3 rows in set (0.011 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_e_commerce |
++----------------------+
+| categories_table     |
+| orders_table         |
+| products_table       |
+| users_table          |
+| v1                   |
+| v2                   |
++----------------------+
+7 rows in set (0.024 sec)
+
+mysql> select * from orders_table;
+Empty set (0.050 sec)
+
+mysql> select * from users_table;
++---------+-------+-------------------+------------+----------+
+| user_id | name  | email             | phone      | address  |
++---------+-------+-------------------+------------+----------+
+|     101 | Ram   | ram@gmail.com     | 8669341360 | Pune     |
+|     102 | Sham  | sham@gmail.com    | 8767443434 | Nashik   |
+|     103 | Kunal | kunal34@gmail.com | 7829490378 | Talegaon |
++---------+-------+-------------------+------------+----------+
+3 rows in set (0.011 sec)
+
+mysql> desc orders_table;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| order_id       | int         | NO   | PRI | NULL    |       |
+| user_id        | int         | YES  | MUL | NULL    |       |
+| oder_date      | date        | YES  |     | NULL    |       |
+| total_amount   | float       | YES  |     | NULL    |       |
+| payment_method | varchar(20) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.033 sec)
+mysql> insert into orders_table (order_id, user_id, oder_date, total_amount, payment_method) values(178901, 101, '2025-08-01', 657.98, 'upi');
+Query OK, 1 row affected (0.108 sec)
+
+mysql> select * from orders_table;
++----------+---------+------------+--------------+----------------+
+| order_id | user_id | oder_date  | total_amount | payment_method |
++----------+---------+------------+--------------+----------------+
+|   178901 |     101 | 2025-08-01 |       657.98 | upi            |
++----------+---------+------------+--------------+----------------+
+1 row in set (0.012 sec)
+
+mysql> insert into orders_table (order_id, user_id, oder_date, total_amount, payment_method) values(178901, '2025-07-29', 890.00, 'cash');
+mysql> insert into orders_table (order_id, user_id, oder_date, total_amount, payment_method) values(178902, 102, '2025-07-29', 890.00, 'cash');
+Query OK, 1 row affected (0.072 sec)
+
+mysql> select * from orders_table
+    -> ;
++----------+---------+------------+--------------+----------------+
+| order_id | user_id | oder_date  | total_amount | payment_method |
++----------+---------+------------+--------------+----------------+
+|   178901 |     101 | 2025-08-01 |       657.98 | upi            |
+|   178902 |     102 | 2025-07-29 |          890 | cash           |
++----------+---------+------------+--------------+----------------+
+2 rows in set (0.009 sec)
+
+mysql> desc tables;
+ERROR 1146 (42S02): Table 'e_commerce.tables' doesn't exist
+mysql> show tables;
++----------------------+
+| Tables_in_e_commerce |
++----------------------+
+| categories_table     |
+| orders_table         |
+| products_table       |
+| users_table          |
+| v1                   |
+| v2                   |
++----------------------+
+6 rows in set (0.029 sec)
+mysql> alter table orders_table change oder_date order_date date;
+Query OK, 0 rows affected (0.401 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from orders_table;
++----------+---------+------------+--------------+----------------+
+| order_id | user_id | order_date | total_amount | payment_method |
++----------+---------+------------+--------------+----------------+
+|   178901 |     101 | 2025-08-01 |       657.98 | upi            |
+|   178902 |     102 | 2025-07-29 |          890 | cash           |
++----------+---------+------------+--------------+----------------+
+2 rows in set (0.012 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_e_commerce |
++----------------------+
+| categories_table     |
+| orders_table         |
+| products_table       |
+| users_table          |
+| v1                   |
+| v2                   |
++----------------------+
+6 rows in set (0.034 sec)
+
+mysql> select * v2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'v2' at line 1
+mysql> select * from v2;
++---------+----------------+----------+
+| user_id | email          | order_id |
++---------+----------------+----------+
+|     101 | ram@gmail.com  |   178901 |
+|     102 | sham@gmail.com |   178902 |
++---------+----------------+----------+
+2 rows in set (0.022 sec)
+
+mysql> create index abc on users_table(user_id);
+Query OK, 0 rows affected (0.634 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show index;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select * from index;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'index' at line 1
+mysql> show index from orders_table;
++--------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table        | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++--------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| orders_table |          0 | PRIMARY  |            1 | order_id    | A         |           2 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| orders_table |          1 | user_id  |            1 | user_id     | A         |           2 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++--------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.141 sec)
+
+mysql> show index from users_table;
++-------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table       | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| users_table |          0 | PRIMARY  |            1 | user_id     | A         |           2 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| users_table |          1 | abc      |            1 | user_id     | A         |           2 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++-------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.121 sec)
+
+mysql> select * from users_table;
++---------+-------+-------------------+------------+----------+
+| user_id | name  | email             | phone      | address  |
++---------+-------+-------------------+------------+----------+
+|     101 | Ram   | ram@gmail.com     | 8669341360 | Pune     |
+|     102 | Sham  | sham@gmail.com    | 8767443434 | Nashik   |
+|     103 | Kunal | kunal34@gmail.com | 7829490378 | Talegaon |
++---------+-------+-------------------+------------+----------+
+3 rows in set (0.009 sec)
+
+mysql> show index from products_table;
++----------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table          | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| products_table |          0 | PRIMARY  |            1 | product_id  | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++----------------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.098 sec)
+
+mysql>
